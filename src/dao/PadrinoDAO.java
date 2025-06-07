@@ -1,28 +1,18 @@
 package dao;
 
-import models.Padrino;
-import models.PadrinoProgram;
-
-
-import java.util.List;
 import java.sql.*;
+import models.Padrino;
 public class PadrinoDAO {
 
     public boolean insertar(Padrino padrino) {
         Connection connection = null;
+        PreparedStatement statement = null;
         try{
-            String driver = "com.mysql.cj.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/Proyecto";
-            String username = "root";
-            String password = "root";
-
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, username, password);
-
+            connection = DBConnection.getConnection();
             connection.setAutoCommit(false);
             String query = "INSERT INTO Padrino (dni, nombre, apellido, direccion, celular, telefono_fijo, email, facebook, codigo_postal, fecha_nacimiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            PreparedStatement statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query);
 
 
             statement.setInt(1, padrino.getDni());
@@ -42,19 +32,17 @@ public class PadrinoDAO {
             return true;
 
 
-        } catch (ClassNotFoundException cnfe) {
-            System.err.println("Error loading driver: " + cnfe);
-            return false;
         } catch (SQLException sqle) {
             try {
                 System.err.println("Error en BD: " + sqle);
-                connection.rollback();
+                if(connection != null) connection.rollback();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return false;
         } finally {
         try {
+            if (statement != null) statement.close();   // ← Agregar
             if (connection != null) connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,15 +51,44 @@ public class PadrinoDAO {
 
     }
 
-    public List<PadrinoProgram> listarConProgramas() {
-        return null;
+    public void listarConProgramas() {
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String query = "SELECT p.Dni, p.Apellido, p.Nombre, " +
+               "pr.nombre, a.Monto, a.Frecuencia_Aporte " +
+               "FROM Padrino p " +
+               "JOIN Aportan a ON p.Dni = a.Dni " +                   
+               "JOIN Programa pr ON a.Id_Programa = pr.Id_Programa";  
+
+
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                System.out.println("DNI: " + resultSet.getInt(1));
+                System.out.println("APELLIDO: " + resultSet.getString(2));
+                System.out.println("NOMBRE: " + resultSet.getString(3));
+                System.out.println("PROGRAMA: " + resultSet.getString(4));
+                System.out.println("MONTO: " + resultSet.getInt(5));
+                System.out.println("FRECUENCIA: " + resultSet.getString(6));
+                System.out.println("--------------------\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (connection != null) connection.close();
+                if (statement != null) statement.close();
+                if(resultSet != null) resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public Padrino buscarPorDni(int dni) {
-        return null;
-    }
-
-    public List<Padrino> listarTodos() {
-        return null;
-    }
 }

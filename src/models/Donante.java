@@ -1,7 +1,5 @@
 package models;
 
-import java.math.BigInteger;
-
 public class Donante {
  private int dni;
  private String ocupacion;
