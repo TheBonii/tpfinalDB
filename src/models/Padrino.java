@@ -1,6 +1,8 @@
 package models;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class Padrino {
 
@@ -113,12 +115,20 @@ public class Padrino {
     }
 
     public int getEdad() {
-        return edad;
+        return calcularEdad();
+    }
+
+    private int calcularEdad(){
+        if (fechaNacimiento == null) return 0;
+        LocalDate nacimiento = fechaNacimiento.toLocalDate();
+        LocalDate hoy = LocalDate.now();
+        return Period.between(nacimiento, hoy).getYears();
     }
 
     public void setEdad(int edad) {
         this.edad = edad;
     }
+
 
     @Override
     public String toString() {
