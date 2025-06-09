@@ -16,7 +16,6 @@ public class Padrino {
     private String facebook;
     private int codigoPostal;
     private Date fechaNacimiento;
-    private int edad;
 
 
     public Padrino() {}  // Constructor vacío
@@ -114,16 +113,6 @@ public class Padrino {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getEdad() {
-        return calcularEdad();
-    }
-
-    private int calcularEdad(){
-        if (fechaNacimiento == null) return 0;
-        LocalDate nacimiento = fechaNacimiento.toLocalDate();
-        LocalDate hoy = LocalDate.now();
-        return Period.between(nacimiento, hoy).getYears();
-    }
 
     public void setEdad(int edad) {
         this.edad = edad;

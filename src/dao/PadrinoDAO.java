@@ -1,6 +1,9 @@
 package dao;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
+
 import models.Padrino;
 public class PadrinoDAO {
 
@@ -76,6 +79,51 @@ public class PadrinoDAO {
                 System.out.println("MONTO: " + resultSet.getInt(5));
                 System.out.println("FRECUENCIA: " + resultSet.getString(6));
                 System.out.println("--------------------\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (connection != null) connection.close();
+                if (statement != null) statement.close();
+                if(resultSet != null) resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void listarPadrinos() {
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            String query = "SELECT p.dni, p.apellido, p.nombre, p.direccion, " +
+                      "p.celular, p.email, p.fecha_nacimiento " +
+                      "FROM Padrino p";
+
+        statement = connection.prepareStatement(query);
+        resultSet = statement.executeQuery();
+
+        while(resultSet.next()){
+            System.out.println("DNI: " + resultSet.getInt("dni"));
+            System.out.println("APELLIDO: " + resultSet.getString("apellido"));
+            System.out.println("NOMBRE: " + resultSet.getString("nombre"));
+            System.out.println("DIRECCION: " + resultSet.getString("direccion"));
+            System.out.println("CELULAR: " + resultSet.getString("celular"));
+            System.out.println("EMAIL: " + resultSet.getString("email"));
+            //Calcular Edad}
+            Date fechaNacimiento = result.getDate(fecha_nacimiento);
+            if (fechaNacimiento != null){
+                LocalDate nac = fechaNacimiento.toLocalDate();
+                LocalDate now = LocalDate.now();
+                int edad = Period.between(nac, now).getYears();
+                System.out.println("EDAD: " + edad + " años.");
+            }
+            System.out.println("--------------------\n");
             }
 
         } catch (Exception e) {
