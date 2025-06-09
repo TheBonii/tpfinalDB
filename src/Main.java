@@ -37,7 +37,7 @@ public class Main {
 
     private static void mostrarMenu() {
         int opcion = 0;
-        while(opcion != 5) {
+        while(opcion != 8) {
             
             System.out.println("\n" + "===========================================================");
             System.out.println("             SISTEMA DE PADRINOS  ");
@@ -46,9 +46,12 @@ public class Main {
             System.out.println("2) Eliminar donante por DNI");
             System.out.println("3) Listar padrinos con programas");
             System.out.println("4) Listar todos los padrinos");
-            System.out.println("5) Salir del sistema");
+            System.out.println("5) Cantidad de pagos por programa");
+            System.out.println("6) Donantes con más de 2 aportes");
+            System.out.println("7) Listado de pagos por donante");
+            System.out.println("8) Salir del sistema");
             System.out.println("\n" + "===========================================================");
-            System.out.print("Seleccione una opción (1-4): ");
+            System.out.print("Seleccione una opción (1-8): ");
             
             opcion = scanner.nextInt();
             scanner.nextLine();
@@ -62,6 +65,12 @@ public class Main {
             }else if(opcion == 4){
                 listarTodosPadrinos();
             }else if(opcion == 5){
+                cantidadPagosPorPrograma();
+            }else if(opcion == 6){
+                donantesConMasDeDosAportes();
+            }else if(opcion == 7){
+                pagosPorDonante();
+            }else if(opcion == 8){
                 System.out.println("Saliendo del sistema!");
             }  
             else{
@@ -190,7 +199,38 @@ public class Main {
         } catch (Exception e) {
             System.out.println(" Error al obtener el listado: " + e.getMessage());
         }
-        
+    }
 
+    private static void cantidadPagosPorPrograma() {
+        System.out.println("\n" + "===========================================================");
+        System.out.println("   CANTIDAD DE PAGOS POR PROGRAMA");
+        System.out.println("===========================================================");
+        try {
+            padrinoDAO.cantidadPagosPorPrograma();
+        } catch (Exception e) {
+            System.out.println("Error al obtener el reporte: " + e.getMessage());
+        }
+    }
+
+    private static void donantesConMasDeDosAportes() {
+        System.out.println("\n" + "===========================================================");
+        System.out.println("   DONANTES CON MÁS DE 2 APORTES");
+        System.out.println("===========================================================");
+        try {
+            padrinoDAO.donantesConMasDeDosAportes();
+        } catch (Exception e) {
+            System.out.println("Error al obtener el reporte: " + e.getMessage());
+        }
+    }
+
+    private static void pagosPorDonante() {
+        System.out.println("\n" + "===========================================================");
+        System.out.println("   LISTADO DE PAGOS POR DONANTE");
+        System.out.println("===========================================================");
+        try {
+            padrinoDAO.pagosPorDonante();
+        } catch (Exception e) {
+            System.out.println("Error al obtener el reporte: " + e.getMessage());
+        }
     }
 }

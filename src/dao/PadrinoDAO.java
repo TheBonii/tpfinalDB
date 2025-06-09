@@ -138,4 +138,56 @@ public class PadrinoDAO {
         }
     }
 
+    public void cantidadPagosPorPrograma() {
+        String query = "SELECT Id_Programa, COUNT(Id_Pago) AS CantPagos FROM Aportan GROUP BY Id_Programa";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int idPrograma = rs.getInt("Id_Programa");
+                int cantPagos = rs.getInt("CantPagos");
+                System.out.println("Programa: " + idPrograma + " - Pagos: " + cantPagos);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void donantesConMasDeDosAportes() {
+        String query = "SELECT Dni, Nombre, Apellido, COUNT(Id_Pago) AS CantAportes " +
+                       "FROM Donante NATURAL JOIN Aportan NATURAL JOIN Padrino " +
+                       "GROUP BY Dni HAVING CantAportes > 2";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int dni = rs.getInt("Dni");
+                String nombre = rs.getString("Nombre");
+                String apellido = rs.getString("Apellido");
+                int cantAportes = rs.getInt("CantAportes");
+                System.out.println("DNI: " + dni + " - Nombre: " + nombre + " " + apellido + " - Aportes: " + cantAportes);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+   
+    public void pagosPorDonante() {
+        String query = "SELECT Dni, Nombre, Apellido, Id_Pago " +
+                       "FROM Aportan NATURAL JOIN Donante NATURAL JOIN Padrino";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int dni = rs.getInt("Dni");
+                String nombre = rs.getString("Nombre");
+                String apellido = rs.getString("Apellido");
+                int idPago = rs.getInt("Id_Pago");
+                System.out.println("DNI: " + dni + " - Nombre: " + nombre + " " + apellido + " - Pago: " + idPago);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
