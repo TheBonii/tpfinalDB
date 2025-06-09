@@ -1,8 +1,6 @@
 package models;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
 
 public class Padrino {
 
@@ -114,10 +112,7 @@ public class Padrino {
     }
 
 
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
+   
 
     @Override
     public String toString() {

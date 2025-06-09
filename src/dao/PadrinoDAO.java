@@ -3,7 +3,6 @@ package dao;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
-
 import models.Padrino;
 public class PadrinoDAO {
 
@@ -116,7 +115,7 @@ public class PadrinoDAO {
             System.out.println("CELULAR: " + resultSet.getString("celular"));
             System.out.println("EMAIL: " + resultSet.getString("email"));
             //Calcular Edad}
-            Date fechaNacimiento = result.getDate(fecha_nacimiento);
+            Date fechaNacimiento = resultSet.getDate("fecha_nacimiento");
             if (fechaNacimiento != null){
                 LocalDate nac = fechaNacimiento.toLocalDate();
                 LocalDate now = LocalDate.now();

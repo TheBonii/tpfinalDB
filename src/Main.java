@@ -37,7 +37,7 @@ public class Main {
 
     private static void mostrarMenu() {
         int opcion = 0;
-        while(opcion != 4) {
+        while(opcion != 5) {
             
             System.out.println("\n" + "===========================================================");
             System.out.println("             SISTEMA DE PADRINOS  ");
@@ -45,7 +45,8 @@ public class Main {
             System.out.println("1) Cargar nuevo padrino");
             System.out.println("2) Eliminar donante por DNI");
             System.out.println("3) Listar padrinos con programas");
-            System.out.println("4) Salir del sistema");
+            System.out.println("4) Listar todos los padrinos");
+            System.out.println("5) Salir del sistema");
             System.out.println("\n" + "===========================================================");
             System.out.print("Seleccione una opción (1-4): ");
             
@@ -59,8 +60,11 @@ public class Main {
             }else if(opcion == 3){
                 listarPadrinosConProgramas();
             }else if(opcion == 4){
+                listarTodosPadrinos();
+            }else if(opcion == 5){
                 System.out.println("Saliendo del sistema!");
-            }else{
+            }  
+            else{
                 System.out.println("Opcion incorrecta!");
             }
         }
@@ -171,5 +175,22 @@ public class Main {
         } catch (Exception e) {
             System.out.println(" Error al obtener el listado: " + e.getMessage());
         }
+    }
+
+    private static void listarTodosPadrinos(){
+         System.out.println("\n" + "===========================================================");
+        System.out.println("           LISTA DE PADRINOS");
+        System.out.println("\n" + "===========================================================");
+        
+        try {
+            padrinoDAO.listarPadrinos();
+        System.out.println("\n" + "===========================================================");
+            System.out.println(" Listado finalizado.");
+            
+        } catch (Exception e) {
+            System.out.println(" Error al obtener el listado: " + e.getMessage());
+        }
+        
+
     }
 }
