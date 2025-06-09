@@ -33,7 +33,7 @@ public class DonanteDAO {
         } catch (SQLException sqle){
             try {
                 System.err.println("Error en BD: " + sqle);
-                connection.rollback();
+                if(connection != null) connection.rollback(); 
             } catch (Exception e){
                 e.printStackTrace();
             }
