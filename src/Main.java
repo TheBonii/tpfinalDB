@@ -214,7 +214,7 @@ public class Main {
 
     private static void donantesConMasDeDosAportes() {
         System.out.println("\n" + "===========================================================");
-        System.out.println("   DONANTES CON MÁS DE 2 APORTES");
+        System.out.println("   DONANTES CON MAS DE 2 APORTES");
         System.out.println("===========================================================");
         try {
             padrinoDAO.donantesConMasDeDosAportes();
